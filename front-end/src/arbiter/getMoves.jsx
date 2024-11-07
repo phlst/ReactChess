@@ -225,10 +225,12 @@ export const getCastlingMoves = ({position,castleDirection,piece,rank,file}) => 
   return moves
 }
 
-export const getCastlingDirections = ({castleDirection,piece,rank,file}) => {
-  rank = Number(rank)
-  file = Number(file)
-  const direction = castleDirection[piece[0]]
+
+export const getCastleDirections = ({castleDirection,piece,rank,file}) => {
+  const frozenCastleDirection = Object.freeze({ ...castleDirection });
+  const direction = frozenCastleDirection[piece[0]];
+  console.log(direction);
+  //const direction = castleDirection[piece[0]];
   if(piece.endsWith('k'))
     return 'none'
 

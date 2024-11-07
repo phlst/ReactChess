@@ -6,7 +6,7 @@ import { createPosition, copyPosition } from "../../helper.js";
 import { useAppContext } from "../../contexts/context.jsx";
 import { clearCandidates, makeNewMove } from "../../reducer/actions/move.jsx";
 import { openPromotion } from "../../reducer/actions/popup.jsx";
-import { getCastlingDirections } from "../../arbiter/getMoves.jsx";
+import { getCastleDirections } from "../../arbiter/getMoves.jsx";
 
 function Pieces() {
   const ref = useRef();
@@ -32,12 +32,12 @@ function Pieces() {
     }))
   }
 
-  const updateCastlingState = ({piece,file,rank}) => {
-    const direction = getCastlingDirections({
-        castleDirection:appState.castleDirection,
+  const updateCastlingState = ({piece,rank,file}) => {
+    const direction = getCastleDirections({
+        castleDirection: appState.castleDirection,
         piece,
-        file,
-        rank
+        file: Number(file),
+        rank: Number(rank)
     })
     if (direction){
         dispatch(updateCastlingState(direction))

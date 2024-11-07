@@ -16,7 +16,7 @@ export const initGameState = {
     promotionSquare : null,
     status : Status.ongoing,
     castleDirection: {
-        w: 'both',
-        b: 'both',
+        w : 'both',
+        b : 'both'
     }
 }
