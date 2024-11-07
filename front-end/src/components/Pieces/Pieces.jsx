@@ -6,6 +6,7 @@ import { createPosition, copyPosition } from "../../helper.js";
 import { useAppContext } from "../../contexts/context.jsx";
 import { clearCandidates, makeNewMove } from "../../reducer/actions/move.jsx";
 import { openPromotion } from "../../reducer/actions/popup.jsx";
+import { getCastlingDirections } from "../../arbiter/getMoves.jsx";
 
 function Pieces() {
   const ref = useRef();
@@ -31,6 +32,18 @@ function Pieces() {
     }))
   }
 
+  const updateCastlingState = ({piece,file,rank}) => {
+    const direction = getCastlingDirections({
+        castleDirection:appState.castleDirection,
+        piece,
+        file,
+        rank
+    })
+    if (direction){
+        dispatch(updateCastlingState(direction))
+    }
+}
+
   const move = e => {
     const {x,y} = calculatePosition(e)
     const [piece,file,rank] = e.dataTransfer.getData('text').split(",")
@@ -39,6 +52,9 @@ function Pieces() {
       if((piece === "wp" && x === 7) || (piece === "bp" && x === 0)){
         openPromotionBox({rank,file,x,y})
         return 
+      }
+      if(piece.endsWith('r') || piece.endsWith('k')){
+        updateCastlingState({piece,rank,file})
       }
       const newPosition = arbiter.performMove({
         position:currentPosition,

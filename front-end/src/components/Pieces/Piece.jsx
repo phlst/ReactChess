@@ -5,7 +5,7 @@ import { generateCandidateMoves } from "../../reducer/actions/move";
 function Piece({rank,file,piece}) {
 
   const {appState,dispatch} = useAppContext()
-  const {turn,position} = appState;
+  const {turn,castleDirection,position} = appState;
   const currentPosition = position[position.length - 1];
   const prevPosition = position[position.length - 2]
 
@@ -17,7 +17,7 @@ function Piece({rank,file,piece}) {
       e.target.style.display = "none"
     },0)
     if (turn === piece[0]){
-      const candidateMoves = arbiter.getValidMoves({position: currentPosition,prevPosition: prevPosition,piece,file,rank})
+      const candidateMoves = arbiter.getValidMoves({position: currentPosition,prevPosition: prevPosition,castleDirection: castleDirection[turn],piece,file,rank})
       dispatch(generateCandidateMoves({candidateMoves}))
     }
   }
